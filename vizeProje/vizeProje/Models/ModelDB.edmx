@@ -1,0 +1,301 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+    <Schema Namespace="DB03Model.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="Cevap">
+          <Key>
+            <PropertyRef Name="cevapId" />
+          </Key>
+          <Property Name="cevapId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="cevap" Type="nvarchar" MaxLength="50" />
+          <Property Name="cevapYazar" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Kategori">
+          <Key>
+            <PropertyRef Name="kategoriId" />
+          </Key>
+          <Property Name="kategoriId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="kategori" Type="nvarchar" MaxLength="50" />
+        </EntityType>
+        <EntityType Name="Kullanici">
+          <Key>
+            <PropertyRef Name="kullaniciId" />
+          </Key>
+          <Property Name="kullaniciId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="kullaiciad" Type="nvarchar" MaxLength="50" />
+          <Property Name="kullanicisoyad" Type="nvarchar" MaxLength="50" />
+          <Property Name="kullanicimail" Type="nvarchar" MaxLength="50" />
+          <Property Name="kullanicisifre" Type="nvarchar" MaxLength="50" />
+          <Property Name="nickname" Type="nvarchar" MaxLength="50" />
+        </EntityType>
+        <EntityType Name="Soru">
+          <Key>
+            <PropertyRef Name="soruId" />
+          </Key>
+          <Property Name="soruId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="soru" Type="nvarchar" MaxLength="50" />
+          <Property Name="cevap" Type="int" Nullable="false" />
+          <Property Name="kategori" Type="int" Nullable="false" />
+          <Property Name="yazar" Type="int" Nullable="false" />
+        </EntityType>
+        <Association Name="FK_Cevap_ToKullanici">
+          <End Role="Kullanici" Type="Self.Kullanici" Multiplicity="1" />
+          <End Role="Cevap" Type="Self.Cevap" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Kullanici">
+              <PropertyRef Name="kullaniciId" />
+            </Principal>
+            <Dependent Role="Cevap">
+              <PropertyRef Name="cevapYazar" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Soru_ToCevap">
+          <End Role="Cevap" Type="Self.Cevap" Multiplicity="1" />
+          <End Role="Soru" Type="Self.Soru" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Cevap">
+              <PropertyRef Name="cevapId" />
+            </Principal>
+            <Dependent Role="Soru">
+              <PropertyRef Name="cevap" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Soru_ToKategori">
+          <End Role="Kategori" Type="Self.Kategori" Multiplicity="1" />
+          <End Role="Soru" Type="Self.Soru" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Kategori">
+              <PropertyRef Name="kategoriId" />
+            </Principal>
+            <Dependent Role="Soru">
+              <PropertyRef Name="kategori" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Soru_ToKullanici">
+          <End Role="Kullanici" Type="Self.Kullanici" Multiplicity="1" />
+          <End Role="Soru" Type="Self.Soru" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Kullanici">
+              <PropertyRef Name="kullaniciId" />
+            </Principal>
+            <Dependent Role="Soru">
+              <PropertyRef Name="yazar" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="DB03ModelStoreContainer">
+          <EntitySet Name="Cevap" EntityType="Self.Cevap" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Kategori" EntityType="Self.Kategori" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Kullanici" EntityType="Self.Kullanici" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Soru" EntityType="Self.Soru" Schema="dbo" store:Type="Tables" />
+          <AssociationSet Name="FK_Cevap_ToKullanici" Association="Self.FK_Cevap_ToKullanici">
+            <End Role="Kullanici" EntitySet="Kullanici" />
+            <End Role="Cevap" EntitySet="Cevap" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Soru_ToCevap" Association="Self.FK_Soru_ToCevap">
+            <End Role="Cevap" EntitySet="Cevap" />
+            <End Role="Soru" EntitySet="Soru" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Soru_ToKategori" Association="Self.FK_Soru_ToKategori">
+            <End Role="Kategori" EntitySet="Kategori" />
+            <End Role="Soru" EntitySet="Soru" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Soru_ToKullanici" Association="Self.FK_Soru_ToKullanici">
+            <End Role="Kullanici" EntitySet="Kullanici" />
+            <End Role="Soru" EntitySet="Soru" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema></edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="DB03Model" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityContainer Name="DB03Entities" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="Cevap" EntityType="DB03Model.Cevap" />
+          <EntitySet Name="Kategori" EntityType="DB03Model.Kategori" />
+          <EntitySet Name="Kullanici" EntityType="DB03Model.Kullanici" />
+          <EntitySet Name="Soru" EntityType="DB03Model.Soru" />
+          <AssociationSet Name="FK_Cevap_ToKullanici" Association="DB03Model.FK_Cevap_ToKullanici">
+            <End Role="Kullanici" EntitySet="Kullanici" />
+            <End Role="Cevap" EntitySet="Cevap" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Soru_ToCevap" Association="DB03Model.FK_Soru_ToCevap">
+            <End Role="Cevap" EntitySet="Cevap" />
+            <End Role="Soru" EntitySet="Soru" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Soru_ToKategori" Association="DB03Model.FK_Soru_ToKategori">
+            <End Role="Kategori" EntitySet="Kategori" />
+            <End Role="Soru" EntitySet="Soru" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Soru_ToKullanici" Association="DB03Model.FK_Soru_ToKullanici">
+            <End Role="Kullanici" EntitySet="Kullanici" />
+            <End Role="Soru" EntitySet="Soru" />
+          </AssociationSet>
+        </EntityContainer>
+        <EntityType Name="Cevap">
+          <Key>
+            <PropertyRef Name="cevapId" />
+          </Key>
+          <Property Name="cevapId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="cevap1" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="cevapYazar" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="Kullanici" Relationship="DB03Model.FK_Cevap_ToKullanici" FromRole="Cevap" ToRole="Kullanici" />
+          <NavigationProperty Name="Soru" Relationship="DB03Model.FK_Soru_ToCevap" FromRole="Cevap" ToRole="Soru" />
+        </EntityType>
+        <EntityType Name="Kategori">
+          <Key>
+            <PropertyRef Name="kategoriId" />
+          </Key>
+          <Property Name="kategoriId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="kategori1" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="Soru" Relationship="DB03Model.FK_Soru_ToKategori" FromRole="Kategori" ToRole="Soru" />
+        </EntityType>
+        <EntityType Name="Kullanici">
+          <Key>
+            <PropertyRef Name="kullaniciId" />
+          </Key>
+          <Property Name="kullaniciId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="kullaiciad" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="kullanicisoyad" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="kullanicimail" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="kullanicisifre" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="nickname" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="Cevap" Relationship="DB03Model.FK_Cevap_ToKullanici" FromRole="Kullanici" ToRole="Cevap" />
+          <NavigationProperty Name="Soru" Relationship="DB03Model.FK_Soru_ToKullanici" FromRole="Kullanici" ToRole="Soru" />
+        </EntityType>
+        <EntityType Name="Soru">
+          <Key>
+            <PropertyRef Name="soruId" />
+          </Key>
+          <Property Name="soruId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="soru1" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="cevap" Type="Int32" Nullable="false" />
+          <Property Name="kategori" Type="Int32" Nullable="false" />
+          <Property Name="yazar" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="Cevap1" Relationship="DB03Model.FK_Soru_ToCevap" FromRole="Soru" ToRole="Cevap" />
+          <NavigationProperty Name="Kategori1" Relationship="DB03Model.FK_Soru_ToKategori" FromRole="Soru" ToRole="Kategori" />
+          <NavigationProperty Name="Kullanici" Relationship="DB03Model.FK_Soru_ToKullanici" FromRole="Soru" ToRole="Kullanici" />
+        </EntityType>
+        <Association Name="FK_Cevap_ToKullanici">
+          <End Type="DB03Model.Kullanici" Role="Kullanici" Multiplicity="1" />
+          <End Type="DB03Model.Cevap" Role="Cevap" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Kullanici">
+              <PropertyRef Name="kullaniciId" />
+            </Principal>
+            <Dependent Role="Cevap">
+              <PropertyRef Name="cevapYazar" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Soru_ToCevap">
+          <End Type="DB03Model.Cevap" Role="Cevap" Multiplicity="1" />
+          <End Type="DB03Model.Soru" Role="Soru" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Cevap">
+              <PropertyRef Name="cevapId" />
+            </Principal>
+            <Dependent Role="Soru">
+              <PropertyRef Name="cevap" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Soru_ToKategori">
+          <End Type="DB03Model.Kategori" Role="Kategori" Multiplicity="1" />
+          <End Type="DB03Model.Soru" Role="Soru" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Kategori">
+              <PropertyRef Name="kategoriId" />
+            </Principal>
+            <Dependent Role="Soru">
+              <PropertyRef Name="kategori" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Soru_ToKullanici">
+          <End Type="DB03Model.Kullanici" Role="Kullanici" Multiplicity="1" />
+          <End Type="DB03Model.Soru" Role="Soru" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Kullanici">
+              <PropertyRef Name="kullaniciId" />
+            </Principal>
+            <Dependent Role="Soru">
+              <PropertyRef Name="yazar" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="DB03ModelStoreContainer" CdmEntityContainer="DB03Entities">
+          <EntitySetMapping Name="Cevap">
+            <EntityTypeMapping TypeName="DB03Model.Cevap">
+              <MappingFragment StoreEntitySet="Cevap">
+                <ScalarProperty Name="cevapYazar" ColumnName="cevapYazar" />
+                <ScalarProperty Name="cevap1" ColumnName="cevap" />
+                <ScalarProperty Name="cevapId" ColumnName="cevapId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Kategori">
+            <EntityTypeMapping TypeName="DB03Model.Kategori">
+              <MappingFragment StoreEntitySet="Kategori">
+                <ScalarProperty Name="kategori1" ColumnName="kategori" />
+                <ScalarProperty Name="kategoriId" ColumnName="kategoriId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Kullanici">
+            <EntityTypeMapping TypeName="DB03Model.Kullanici">
+              <MappingFragment StoreEntitySet="Kullanici">
+                <ScalarProperty Name="nickname" ColumnName="nickname" />
+                <ScalarProperty Name="kullanicisifre" ColumnName="kullanicisifre" />
+                <ScalarProperty Name="kullanicimail" ColumnName="kullanicimail" />
+                <ScalarProperty Name="kullanicisoyad" ColumnName="kullanicisoyad" />
+                <ScalarProperty Name="kullaiciad" ColumnName="kullaiciad" />
+                <ScalarProperty Name="kullaniciId" ColumnName="kullaniciId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Soru">
+            <EntityTypeMapping TypeName="DB03Model.Soru">
+              <MappingFragment StoreEntitySet="Soru">
+                <ScalarProperty Name="yazar" ColumnName="yazar" />
+                <ScalarProperty Name="kategori" ColumnName="kategori" />
+                <ScalarProperty Name="cevap" ColumnName="cevap" />
+                <ScalarProperty Name="soru1" ColumnName="soru" />
+                <ScalarProperty Name="soruId" ColumnName="soruId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="false" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="false" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="None" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>
