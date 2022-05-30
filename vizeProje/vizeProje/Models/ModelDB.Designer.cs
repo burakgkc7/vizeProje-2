@@ -1,4 +1,4 @@
-﻿// T4 code generation is enabled for model 'C:\Users\burak\Desktop\int-prog-2\vizeProje\vizeProje\Models\ModelDB.edmx'. 
+﻿// T4 code generation is enabled for model 'C:\Users\burak\Desktop\int-prog-2\vizeProje-2\vizeProje\vizeProje\Models\ModelDB.edmx'. 
 // To enable legacy code generation, change the value of the 'Code Generation Strategy' designer
 // property to 'Legacy ObjectContext'. This property is available in the Properties Window when the model
 // is open in the designer.
