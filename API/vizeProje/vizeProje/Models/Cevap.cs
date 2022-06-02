@@ -12,16 +12,14 @@ namespace vizeProje.Models
     using System;
     using System.Collections.Generic;
     
-    public partial class Soru
+    public partial class Cevap
     {
-        public int soruId { get; set; }
-        public string soru1 { get; set; }
-        public int cevap { get; set; }
-        public int kategori { get; set; }
-        public int yazar { get; set; }
+        public int cevapId { get; set; }
+        public string cevap1 { get; set; }
+        public Nullable<int> cevapYazar { get; set; }
+        public Nullable<int> soruId { get; set; }
     
-        public virtual Cevap Cevap1 { get; set; }
-        public virtual Kategori Kategori1 { get; set; }
         public virtual Kullanici Kullanici { get; set; }
+        public virtual Soru Soru { get; set; }
     }
 }

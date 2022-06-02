@@ -27,9 +27,9 @@ namespace vizeProje.Controllers
             {
                 soruId = x.soruId,
                 soru1 = x.soru1, 
-                cevap=x.cevap,
                 kategori=x.kategori,
                 yazar=x.yazar,
+
                 
             }).ToList();
             return liste;
@@ -42,7 +42,6 @@ namespace vizeProje.Controllers
             SoruModel kayit = db.Soru.Where(s => s.soruId == soruId).Select(x => new SoruModel()
             {
                 soru1 = x.soru1,
-                cevap = x.cevap,
                 kategori = x.kategori,
                 yazar = x.yazar,
 
@@ -54,20 +53,27 @@ namespace vizeProje.Controllers
         [Route("api/soruekle")]
         public SonucModel SoruEkle(SoruModel model)
         {
-            
+            if (db.Soru.Count(c => c.soruId == model.soruId) > 0)
+            {
+                sonuc.islem = false;
+                sonuc.mesaj = "Aynı Soru Mevcuttur";
+                return sonuc;
+            }
 
             Soru yeni = new Soru();
-            yeni.soruId = model.soruId;            
             yeni.soru1 = model.soru1;
-            yeni.cevap = model.cevap;
+            yeni.yazar = model.yazar;
             yeni.kategori = model.kategori;
-            yeni.yazar = model.yazar;         
+
+
+
             db.Soru.Add(yeni);
             db.SaveChanges();
             sonuc.islem = true;
             sonuc.mesaj = "Soru Eklendi";
             return sonuc;
         }
+
         [HttpPut]
         [Route("api/soruduzenle")]
         public SonucModel SoruDuzenle(SoruModel model)
@@ -123,6 +129,7 @@ namespace vizeProje.Controllers
                 cevap1 = x.cevap1,
                 cevapYazar = x.cevapYazar,
 
+
             }).ToList();
             return liste;
         }
@@ -135,6 +142,7 @@ namespace vizeProje.Controllers
                 cevapId = x.cevapId,
                 cevap1 = x.cevap1,
                 cevapYazar = x.cevapYazar,
+
 
             }).SingleOrDefault();
             return kayit;
@@ -155,6 +163,7 @@ namespace vizeProje.Controllers
             yeni.cevapId = model.cevapId;
             yeni.cevap1 = model.cevap1;
             yeni.cevapYazar = model.cevapYazar;
+            yeni.soruId = model.soruId;
 
             db.Cevap.Add(yeni);
             db.SaveChanges();
@@ -179,6 +188,7 @@ namespace vizeProje.Controllers
             kayit.cevapId = model.cevapId;
             kayit.cevap1 = model.cevap1;
             kayit.cevapYazar = model.cevapYazar;
+            kayit.soruId = model.soruId;
 
 
             db.SaveChanges();

@@ -12,20 +12,22 @@ namespace vizeProje.Models
     using System;
     using System.Collections.Generic;
     
-    public partial class Cevap
+    public partial class Soru
     {
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
-        public Cevap()
+        public Soru()
         {
-            this.Soru = new HashSet<Soru>();
+            this.Cevap = new HashSet<Cevap>();
         }
     
-        public int cevapId { get; set; }
-        public string cevap1 { get; set; }
-        public int cevapYazar { get; set; }
+        public int soruId { get; set; }
+        public string soru1 { get; set; }
+        public Nullable<int> kategori { get; set; }
+        public Nullable<int> yazar { get; set; }
     
-        public virtual Kullanici Kullanici { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<Soru> Soru { get; set; }
+        public virtual ICollection<Cevap> Cevap { get; set; }
+        public virtual Kategori Kategori1 { get; set; }
+        public virtual Kullanici Kullanici { get; set; }
     }
 }

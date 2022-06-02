@@ -11,7 +11,8 @@
           </Key>
           <Property Name="cevapId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="cevap" Type="nvarchar" MaxLength="50" />
-          <Property Name="cevapYazar" Type="int" Nullable="false" />
+          <Property Name="cevapYazar" Type="int" />
+          <Property Name="soruId" Type="int" />
         </EntityType>
         <EntityType Name="Kategori">
           <Key>
@@ -37,12 +38,11 @@
           </Key>
           <Property Name="soruId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="soru" Type="nvarchar" MaxLength="50" />
-          <Property Name="cevap" Type="int" Nullable="false" />
-          <Property Name="kategori" Type="int" Nullable="false" />
-          <Property Name="yazar" Type="int" Nullable="false" />
+          <Property Name="kategori" Type="int" />
+          <Property Name="yazar" Type="int" />
         </EntityType>
         <Association Name="FK_Cevap_ToKullanici">
-          <End Role="Kullanici" Type="Self.Kullanici" Multiplicity="1" />
+          <End Role="Kullanici" Type="Self.Kullanici" Multiplicity="0..1" />
           <End Role="Cevap" Type="Self.Cevap" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="Kullanici">
@@ -53,20 +53,20 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK_Soru_ToCevap">
-          <End Role="Cevap" Type="Self.Cevap" Multiplicity="1" />
-          <End Role="Soru" Type="Self.Soru" Multiplicity="*" />
+        <Association Name="FK_Cevap_ToSoru">
+          <End Role="Soru" Type="Self.Soru" Multiplicity="0..1" />
+          <End Role="Cevap" Type="Self.Cevap" Multiplicity="*" />
           <ReferentialConstraint>
-            <Principal Role="Cevap">
-              <PropertyRef Name="cevapId" />
+            <Principal Role="Soru">
+              <PropertyRef Name="soruId" />
             </Principal>
-            <Dependent Role="Soru">
-              <PropertyRef Name="cevap" />
+            <Dependent Role="Cevap">
+              <PropertyRef Name="soruId" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
         <Association Name="FK_Soru_ToKategori">
-          <End Role="Kategori" Type="Self.Kategori" Multiplicity="1" />
+          <End Role="Kategori" Type="Self.Kategori" Multiplicity="0..1" />
           <End Role="Soru" Type="Self.Soru" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="Kategori">
@@ -77,8 +77,8 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK_Soru_ToKullanici">
-          <End Role="Kullanici" Type="Self.Kullanici" Multiplicity="1" />
+        <Association Name="FK_Soru_ToYazar">
+          <End Role="Kullanici" Type="Self.Kullanici" Multiplicity="0..1" />
           <End Role="Soru" Type="Self.Soru" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="Kullanici">
@@ -98,15 +98,15 @@
             <End Role="Kullanici" EntitySet="Kullanici" />
             <End Role="Cevap" EntitySet="Cevap" />
           </AssociationSet>
-          <AssociationSet Name="FK_Soru_ToCevap" Association="Self.FK_Soru_ToCevap">
-            <End Role="Cevap" EntitySet="Cevap" />
+          <AssociationSet Name="FK_Cevap_ToSoru" Association="Self.FK_Cevap_ToSoru">
             <End Role="Soru" EntitySet="Soru" />
+            <End Role="Cevap" EntitySet="Cevap" />
           </AssociationSet>
           <AssociationSet Name="FK_Soru_ToKategori" Association="Self.FK_Soru_ToKategori">
             <End Role="Kategori" EntitySet="Kategori" />
             <End Role="Soru" EntitySet="Soru" />
           </AssociationSet>
-          <AssociationSet Name="FK_Soru_ToKullanici" Association="Self.FK_Soru_ToKullanici">
+          <AssociationSet Name="FK_Soru_ToYazar" Association="Self.FK_Soru_ToYazar">
             <End Role="Kullanici" EntitySet="Kullanici" />
             <End Role="Soru" EntitySet="Soru" />
           </AssociationSet>
@@ -124,15 +124,15 @@
             <End Role="Kullanici" EntitySet="Kullanici" />
             <End Role="Cevap" EntitySet="Cevap" />
           </AssociationSet>
-          <AssociationSet Name="FK_Soru_ToCevap" Association="DB03Model.FK_Soru_ToCevap">
-            <End Role="Cevap" EntitySet="Cevap" />
+          <AssociationSet Name="FK_Cevap_ToSoru" Association="DB03Model.FK_Cevap_ToSoru">
             <End Role="Soru" EntitySet="Soru" />
+            <End Role="Cevap" EntitySet="Cevap" />
           </AssociationSet>
           <AssociationSet Name="FK_Soru_ToKategori" Association="DB03Model.FK_Soru_ToKategori">
             <End Role="Kategori" EntitySet="Kategori" />
             <End Role="Soru" EntitySet="Soru" />
           </AssociationSet>
-          <AssociationSet Name="FK_Soru_ToKullanici" Association="DB03Model.FK_Soru_ToKullanici">
+          <AssociationSet Name="FK_Soru_ToYazar" Association="DB03Model.FK_Soru_ToYazar">
             <End Role="Kullanici" EntitySet="Kullanici" />
             <End Role="Soru" EntitySet="Soru" />
           </AssociationSet>
@@ -143,9 +143,10 @@
           </Key>
           <Property Name="cevapId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="cevap1" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
-          <Property Name="cevapYazar" Type="Int32" Nullable="false" />
+          <Property Name="cevapYazar" Type="Int32" />
+          <Property Name="soruId" Type="Int32" />
           <NavigationProperty Name="Kullanici" Relationship="DB03Model.FK_Cevap_ToKullanici" FromRole="Cevap" ToRole="Kullanici" />
-          <NavigationProperty Name="Soru" Relationship="DB03Model.FK_Soru_ToCevap" FromRole="Cevap" ToRole="Soru" />
+          <NavigationProperty Name="Soru" Relationship="DB03Model.FK_Cevap_ToSoru" FromRole="Cevap" ToRole="Soru" />
         </EntityType>
         <EntityType Name="Kategori">
           <Key>
@@ -166,7 +167,7 @@
           <Property Name="kullanicisifre" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
           <Property Name="nickname" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
           <NavigationProperty Name="Cevap" Relationship="DB03Model.FK_Cevap_ToKullanici" FromRole="Kullanici" ToRole="Cevap" />
-          <NavigationProperty Name="Soru" Relationship="DB03Model.FK_Soru_ToKullanici" FromRole="Kullanici" ToRole="Soru" />
+          <NavigationProperty Name="Soru" Relationship="DB03Model.FK_Soru_ToYazar" FromRole="Kullanici" ToRole="Soru" />
         </EntityType>
         <EntityType Name="Soru">
           <Key>
@@ -174,15 +175,14 @@
           </Key>
           <Property Name="soruId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="soru1" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
-          <Property Name="cevap" Type="Int32" Nullable="false" />
-          <Property Name="kategori" Type="Int32" Nullable="false" />
-          <Property Name="yazar" Type="Int32" Nullable="false" />
-          <NavigationProperty Name="Cevap1" Relationship="DB03Model.FK_Soru_ToCevap" FromRole="Soru" ToRole="Cevap" />
+          <Property Name="kategori" Type="Int32" />
+          <Property Name="yazar" Type="Int32" />
+          <NavigationProperty Name="Cevap" Relationship="DB03Model.FK_Cevap_ToSoru" FromRole="Soru" ToRole="Cevap" />
           <NavigationProperty Name="Kategori1" Relationship="DB03Model.FK_Soru_ToKategori" FromRole="Soru" ToRole="Kategori" />
-          <NavigationProperty Name="Kullanici" Relationship="DB03Model.FK_Soru_ToKullanici" FromRole="Soru" ToRole="Kullanici" />
+          <NavigationProperty Name="Kullanici" Relationship="DB03Model.FK_Soru_ToYazar" FromRole="Soru" ToRole="Kullanici" />
         </EntityType>
         <Association Name="FK_Cevap_ToKullanici">
-          <End Type="DB03Model.Kullanici" Role="Kullanici" Multiplicity="1" />
+          <End Type="DB03Model.Kullanici" Role="Kullanici" Multiplicity="0..1" />
           <End Type="DB03Model.Cevap" Role="Cevap" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="Kullanici">
@@ -193,20 +193,20 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK_Soru_ToCevap">
-          <End Type="DB03Model.Cevap" Role="Cevap" Multiplicity="1" />
-          <End Type="DB03Model.Soru" Role="Soru" Multiplicity="*" />
+        <Association Name="FK_Cevap_ToSoru">
+          <End Type="DB03Model.Soru" Role="Soru" Multiplicity="0..1" />
+          <End Type="DB03Model.Cevap" Role="Cevap" Multiplicity="*" />
           <ReferentialConstraint>
-            <Principal Role="Cevap">
-              <PropertyRef Name="cevapId" />
+            <Principal Role="Soru">
+              <PropertyRef Name="soruId" />
             </Principal>
-            <Dependent Role="Soru">
-              <PropertyRef Name="cevap" />
+            <Dependent Role="Cevap">
+              <PropertyRef Name="soruId" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
         <Association Name="FK_Soru_ToKategori">
-          <End Type="DB03Model.Kategori" Role="Kategori" Multiplicity="1" />
+          <End Type="DB03Model.Kategori" Role="Kategori" Multiplicity="0..1" />
           <End Type="DB03Model.Soru" Role="Soru" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="Kategori">
@@ -217,8 +217,8 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK_Soru_ToKullanici">
-          <End Type="DB03Model.Kullanici" Role="Kullanici" Multiplicity="1" />
+        <Association Name="FK_Soru_ToYazar">
+          <End Type="DB03Model.Kullanici" Role="Kullanici" Multiplicity="0..1" />
           <End Type="DB03Model.Soru" Role="Soru" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="Kullanici">
@@ -229,7 +229,7 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-      </Schema>
+        </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
     <edmx:Mappings>
@@ -238,6 +238,7 @@
           <EntitySetMapping Name="Cevap">
             <EntityTypeMapping TypeName="DB03Model.Cevap">
               <MappingFragment StoreEntitySet="Cevap">
+                <ScalarProperty Name="soruId" ColumnName="soruId" />
                 <ScalarProperty Name="cevapYazar" ColumnName="cevapYazar" />
                 <ScalarProperty Name="cevap1" ColumnName="cevap" />
                 <ScalarProperty Name="cevapId" ColumnName="cevapId" />
@@ -269,7 +270,6 @@
               <MappingFragment StoreEntitySet="Soru">
                 <ScalarProperty Name="yazar" ColumnName="yazar" />
                 <ScalarProperty Name="kategori" ColumnName="kategori" />
-                <ScalarProperty Name="cevap" ColumnName="cevap" />
                 <ScalarProperty Name="soru1" ColumnName="soru" />
                 <ScalarProperty Name="soruId" ColumnName="soruId" />
               </MappingFragment>
